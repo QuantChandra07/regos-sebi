@@ -1,0 +1,54 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model RegulatoryDocument {
+  id             String   @id @default(uuid())
+  circularNumber String   @unique
+  title          String
+  issuedDate     DateTime
+  effectiveDate  DateTime
+  status         String
+  tags           String
+  clauses        Clause[]
+}
+
+model Clause {
+  id            String       @id @default(uuid())
+  documentId    String
+  clauseNumber  String
+  content       String
+  applicability String
+  department    String
+  priority      String
+  timeline      String
+  penalty       String?
+  riskLevel     String
+  machineLogic  String
+  approved      Boolean      @default(false)
+  document      RegulatoryDocument @relation(fields: [documentId], references: [id])
+  obligations   Obligation[]
+}
+
+model Obligation {
+  id             String   @id @default(uuid())
+  clauseId       String
+  title          String
+  sourceCircular String
+  department     String
+  owner          String
+  frequency      String
+  status         String
+  riskLevel      String
+  evidenceNeeded String
+  nextDeadline   DateTime
+  trigger        String
+  action         String
+  pseudoCode     String
+  clause         Clause   @relation(fields: [clauseId], references: [id])
+}

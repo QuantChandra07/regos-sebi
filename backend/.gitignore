@@ -1,0 +1,22 @@
+# backend/.gitignore
+
+# Environment
+.env
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Data (optional - commit if you want to share ChromaDB data)
+data/chroma/
+data/parsed/
+
+# Database (SQLite only - not needed for Neon)
+*.db
