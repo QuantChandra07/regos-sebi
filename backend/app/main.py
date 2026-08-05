@@ -20,21 +20,21 @@ from pydantic import BaseModel
 
 load_dotenv()
 
-from backend.app.models import regulatory  # noqa: F401
+from app.models import regulatory  # noqa: F401
 
-from backend.app.api.retrieval import router as retrieval_router
-from backend.app.api.rag import router as rag_router
-from backend.app.api.obligations import router as obligations_router
-from backend.api.risks import router as risks_router
-from backend.app.api.workflow import router as workflow_router
+from app.api.retrieval import router as retrieval_router
+from app.api.rag import router as rag_router
+from app.api.obligations import router as obligations_router
+from api.risks import router as risks_router
+from app.api.workflow import router as workflow_router
 
-from backend.api.documents import router as documents_router
-from backend.api.dashboard import router as dashboard_router
-from backend.api.circulars import router as circulars_router
-from backend.api.evidence import router as evidence_router
+from api.documents import router as documents_router
+from api.dashboard import router as dashboard_router
+from api.circulars import router as circulars_router
+from api.evidence import router as evidence_router
 
-from backend.app.services.ingestion_service import IngestionService
-from backend.app.schemas.response_models import DocumentIngestionResponse
+from app.services.ingestion_service import IngestionService
+from app.schemas.response_models import DocumentIngestionResponse
 
 
 app = FastAPI(
