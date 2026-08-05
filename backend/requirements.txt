@@ -10,7 +10,7 @@ python-dotenv==1.0.1
 PyMuPDF==1.24.4          # import as "fitz"
 pdf2image==1.17.0
 pytesseract==0.3.10
-Pillow==10.3.0
+Pillow>=11.0.0
 
 # Utilities
 loguru==0.7.2
