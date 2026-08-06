@@ -24,9 +24,9 @@ from app.api.obligations import router as obligations_router
 from api.risks import router as risks_router
 from app.api.workflow import router as workflow_router
 from api.documents import router as documents_router
-from app.api.dashboard import router as dashboard_router
-from app.api.circulars import router as circulars_router
-from app.api.evidence import router as evidence_router
+from api.dashboard import router as dashboard_router
+from api.circulars import router as circulars_router
+from api.evidence import router as evidence_router
 from app.services.ingestion_service import IngestionService
 from app.schemas.response_models import DocumentIngestionResponse
 
