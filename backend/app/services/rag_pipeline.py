@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import Any, Dict, Optional
 
-from backend.app.services.retrieval_pipeline import RetrievalPipeline
-from backend.app.services.rag_llm import chat_with_context
+from app.services.retrieval_pipeline import RetrievalPipeline
+from app.services.rag_llm import chat_with_context
 
 
 SYSTEM_PROMPT = (
