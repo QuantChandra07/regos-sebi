@@ -1,7 +1,7 @@
 import os
 import uuid
-from backend.orchestration.graph import document_graph
-from backend.orchestration.state import DocumentState
+from orchestration.graph import document_graph
+from orchestration.state import DocumentState
 
 TEMP_DIR = os.getenv("REGOS_TEMP_DIR", "backend/data/documents/tmp")
 
