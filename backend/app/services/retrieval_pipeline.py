@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import Any, Dict, List, Optional
 
-from backend.app.services.retriever import Retriever
-from backend.app.services.reranker import Reranker
+from app.services.retriever import Retriever
+from app.services.reranker import Reranker
 
 
 class RetrievalPipeline:
