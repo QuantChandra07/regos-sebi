@@ -17,7 +17,7 @@ from sqlalchemy import Enum as SQLEnum
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from backend.database.session import Base
+from database.session import Base
 
 
 class Circular(Base):
