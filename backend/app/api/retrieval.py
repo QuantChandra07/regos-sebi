@@ -1,14 +1,12 @@
 from __future__ import annotations
-
 from typing import Any, Dict, Optional
-
 from fastapi import APIRouter
 from pydantic import BaseModel
-
 from app.services.retrieval_pipeline import RetrievalPipeline
 
-
 router = APIRouter(prefix="/retrieval", tags=["retrieval"])
+
+# Create pipeline instance once at module load (now safe with lazy loading)
 pipeline = RetrievalPipeline()
 
 
