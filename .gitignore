@@ -107,7 +107,7 @@ tmp/
 data/parsed/raw_text/
 data/parsed/chunks/
 data/embeddings/
-models/
+#models/
 hf_cache/
 
 # Secrets
