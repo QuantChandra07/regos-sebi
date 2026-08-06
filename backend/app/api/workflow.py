@@ -7,7 +7,7 @@ from uuid import UUID
 
 from fastapi import APIRouter
 
-from backend.schemas.workflow import WorkflowResult
+from schemas.workflow import WorkflowResult
 from agents.workflow_agent import generate_workflow_simple
 
 router = APIRouter(prefix="/workflow", tags=["workflow"])
