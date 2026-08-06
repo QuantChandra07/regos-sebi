@@ -205,12 +205,12 @@ export default function RegulationFeedPage() {
                   <div className="min-w-0">
                     <p className="text-sm font-medium text-gray-200">{doc.title}</p>
                     <p className="mt-1 font-mono text-[11px] text-zinc-500">
-                      {doc.referenceid || "No reference"} •{" "}
-                      {formatDate(doc.effectivefrom || doc.uploadedat)}
+                      {doc.reference_id || "No reference"} •{" "}
+                      {formatDate(doc.effective_from || doc.uploaded_at)}
                     </p>
 
                     <div className="mt-2 flex flex-wrap gap-1.5">
-                      {[doc.regulator, doc.entitytype || "Generic", doc.category || "Circular"]
+                      {[doc.regulator, doc.entity_type || "Generic", doc.category || "Circular"]
                         .filter(Boolean)
                         .slice(0, 3)
                         .map((t) => (
@@ -245,7 +245,7 @@ export default function RegulationFeedPage() {
               <div className="min-w-0">
                 <h2 className="truncate text-base font-semibold text-white">{selectedDoc.title}</h2>
                 <p className="mt-1 font-mono text-[11px] text-zinc-500">
-                  {selectedDoc.referenceid || "No reference ID"}
+                  {selectedDoc.reference_id || "No reference ID"}
                 </p>
               </div>
 
@@ -265,10 +265,10 @@ export default function RegulationFeedPage() {
 
                 <div className="mt-4 space-y-3 text-sm text-zinc-300">
                   <p><span className="text-zinc-500">Title:</span> {selectedDoc.title}</p>
-                  <p><span className="text-zinc-500">Reference:</span> {selectedDoc.referenceid || "—"}</p>
+                  <p><span className="text-zinc-500">Reference:</span> {selectedDoc.reference_id || "—"}</p>
                   <p><span className="text-zinc-500">Regulator:</span> {selectedDoc.regulator || "—"}</p>
-                  <p><span className="text-zinc-500">Entity Type:</span> {selectedDoc.entitytype || "—"}</p>
-                  <p><span className="text-zinc-500">Effective:</span> {formatDate(selectedDoc.effectivefrom)}</p>
+                  <p><span className="text-zinc-500">Entity Type:</span> {selectedDoc.entity_type || "—"}</p>
+                  <p><span className="text-zinc-500">Effective:</span> {formatDate(selectedDoc.effective_from)}</p>
                   <p><span className="text-zinc-500">Category:</span> {selectedDoc.category || "—"}</p>
                 </div>
               </div>
