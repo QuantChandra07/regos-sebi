@@ -1,6 +1,6 @@
 import os
 import uuid
-from backend.orchestration.state import DocumentState
+from orchestration.state import DocumentState
 
 UPLOAD_DIR = os.getenv("REGOS_UPLOAD_DIR", "backend/data/documents/uploads")
 
