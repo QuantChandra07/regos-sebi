@@ -1,6 +1,6 @@
 # services/obligations_service.py
 from typing import Any, Dict, List, Optional
-from backend.data.parsed.chunks import get_chunk_by_id
+from data.parsed.chunks import get_chunk_by_id
 import sys
 import os
 
