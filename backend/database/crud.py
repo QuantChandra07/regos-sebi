@@ -4,7 +4,7 @@ from typing import List, Optional
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 
-from backend.app.models.regulatory import Obligation
+from app.models.regulatory import Obligation
 from schemas.obligation import ObligationCreate, ObligationResponse
 
 
