@@ -5,7 +5,7 @@ from typing import Any, Dict, Optional
 from fastapi import APIRouter
 from pydantic import BaseModel
 
-from backend.app.services.retrieval_pipeline import RetrievalPipeline
+from app.services.retrieval_pipeline import RetrievalPipeline
 
 
 router = APIRouter(prefix="/retrieval", tags=["retrieval"])
