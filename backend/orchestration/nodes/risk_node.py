@@ -1,5 +1,5 @@
 import uuid
-from backend.orchestration.state import DocumentState, RiskScore
+from orchestration.state import DocumentState, RiskScore
 
 def risk_node(state: DocumentState) -> dict:
     scores = []
