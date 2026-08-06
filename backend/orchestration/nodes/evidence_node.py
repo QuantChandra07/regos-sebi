@@ -1,4 +1,4 @@
-from backend.orchestration.state import DocumentState, EvidenceSuggestion
+from orchestration.state import DocumentState, EvidenceSuggestion
 
 def evidence_node(state: DocumentState) -> dict:
     suggestions = []
