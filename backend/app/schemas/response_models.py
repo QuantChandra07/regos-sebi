@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from backend.app.models.document_models import DocumentText
+from app.models.document_models import DocumentText
 
 
 class DocumentIngestionResponse(BaseModel):
