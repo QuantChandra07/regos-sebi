@@ -4,7 +4,7 @@ import json
 import re
 from typing import Any, Dict, List
 
-from backend.app.services.rag_llm import chat_with_context
+from app.services.rag_llm import chat_with_context
 
 
 OBLIGATION_SYSTEM_PROMPT = """You are a SEBI compliance analyst. Extract EVERY distinct regulatory obligation
