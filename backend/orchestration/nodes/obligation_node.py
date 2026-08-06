@@ -1,4 +1,4 @@
-from backend.orchestration.state import DocumentState, Obligation
+from orchestration.state import DocumentState, Obligation
 
 def obligation_node(state: DocumentState) -> dict:
     all_obligations = []
