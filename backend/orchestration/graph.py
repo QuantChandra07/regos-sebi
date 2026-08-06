@@ -1,16 +1,16 @@
 from langgraph.graph import StateGraph, START, END
 
-from backend.orchestration.state import DocumentState
-from backend.orchestration.nodes.upload_node import upload_node
-from backend.orchestration.nodes.extraction_node import extraction_node
-from backend.orchestration.nodes.regulatory_parser_node import regulatory_parser_node
-from backend.orchestration.nodes.obligation_node import obligation_node
-from backend.orchestration.nodes.applicability_node import applicability_node
-from backend.orchestration.nodes.risk_node import risk_node
-from backend.orchestration.nodes.workflow_node import workflow_node
-from backend.orchestration.nodes.evidence_node import evidence_node
-from backend.orchestration.nodes.gap_node import gap_node
-from backend.orchestration.nodes.persistence_node import persistence_node
+from orchestration.state import DocumentState
+from orchestration.nodes.upload_node import upload_node
+from orchestration.nodes.extraction_node import extraction_node
+from orchestration.nodes.regulatory_parser_node import regulatory_parser_node
+from orchestration.nodes.obligation_node import obligation_node
+from orchestration.nodes.applicability_node import applicability_node
+from orchestration.nodes.risk_node import risk_node
+from orchestration.nodes.workflow_node import workflow_node
+from orchestration.nodes.evidence_node import evidence_node
+from orchestration.nodes.gap_node import gap_node
+from orchestration.nodes.persistence_node import persistence_node
 
 
 def build_document_graph():
