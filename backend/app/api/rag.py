@@ -5,7 +5,7 @@ from typing import Any, Dict, Optional
 from fastapi import APIRouter
 from pydantic import BaseModel
 
-from backend.app.services.rag_pipeline import RAGPipeline
+from app.services.rag_pipeline import RAGPipeline
 
 
 router = APIRouter(prefix="/rag", tags=["rag"])
