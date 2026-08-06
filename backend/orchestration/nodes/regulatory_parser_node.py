@@ -1,5 +1,5 @@
 import re
-from backend.orchestration.state import DocumentState, CircularMetadata
+from orchestration.state import DocumentState, CircularMetadata
 
 def regulatory_parser_node(state: DocumentState) -> dict:
     text = state.clean_text or ""
