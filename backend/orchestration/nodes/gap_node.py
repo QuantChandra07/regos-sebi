@@ -1,10 +1,10 @@
-from backend.orchestration.state import DocumentState, GapResult
+from orchestration.state import DocumentState, GapResult
 
 def gap_node(state: DocumentState) -> dict:
     results = []
 
     try:
-        from backend.agents.gap_agent import run_gap_analysis
+        from agents.gap_agent import run_gap_analysis
 
         obligations_payload = [{"id": ob.id, "text": ob.obligation} for ob in state.obligations]
         result = run_gap_analysis([], obligations_payload)
