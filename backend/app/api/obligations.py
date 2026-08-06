@@ -22,11 +22,11 @@ from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 # Existing RAG pipeline
-from backend.app.services.retrieval_pipeline import RetrievalPipeline
-from backend.app.services.obligation_extractor import extract_obligations as extract_obligations_from_chunks
+from app.services.retrieval_pipeline import RetrievalPipeline
+from app.services.obligation_extractor import extract_obligations as extract_obligations_from_chunks
 
 # New chunk-based extraction pipeline
-from backend.services.obligations_service import (
+from services.obligations_service import (
     run_obligation_pipeline_for_chunk,
     run_obligation_pipeline_for_multiple_chunks,
     ObligationExtractionError,
@@ -34,12 +34,12 @@ from backend.services.obligations_service import (
 from data.parsed.chunks import list_all_chunk_ids
 
 # Database layer
-from backend.database.session import get_db
-from backend.database.crud import create_obligations, list_obligations
-from backend.schemas.obligation import ObligationCreate, ObligationResponse
+from database.session import get_db
+from database.crud import create_obligations, list_obligations
+from schemas.obligation import ObligationCreate, ObligationResponse
 
 # New schemas for chunk-based extraction
-from backend.schemas.obligation_extraction import (
+from schemas.obligation_extraction import (
     ChunkObligationRequest,
     ChunkObligationResponse,
     MultiChunkObligationRequest,
