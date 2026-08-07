@@ -221,7 +221,7 @@ export async function getObligations(params?: {
  * /workflow instead, change TASKS_PATH below.
  */
 
-const TASKS_PATH = "/tasks";
+const TASKS_PATH = "/workflow";
 
 export async function getTasks(params?: {
   department?: string;
