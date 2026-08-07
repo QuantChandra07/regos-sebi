@@ -22,7 +22,6 @@ import {
   ListChecks,
   Layers3,
   Sparkles,
-  Landmark,
 } from "lucide-react";
 
 type MenuItem = {
@@ -55,18 +54,9 @@ const groupedMenu: MenuGroup[] = [
     items: [
       { name: "Clause Intelligence", icon: BrainCircuit, route: "/clause-intelligence" },
       { name: "Obligations", icon: ListChecks, route: "/obligations" },
-      { name: "Obligation Cards", icon: FileCheck2, route: "/obligation-cards" },
       { name: "Compliance Graph", icon: GitFork, route: "/compliance-graph" },
       { name: "Risk Intelligence", icon: TrendingUp, route: "/risk" },
       { name: "AI Copilot", icon: Bot, route: "/ai-copilot" },
-    ],
-  },
-  {
-    title: "Governance",
-    icon: Landmark,
-    items: [
-      { name: "Synthetic Inspection", icon: FileSpreadsheet, route: "/synthetic-inspection" },
-      { name: "Compliance Timeline", icon: History, route: "/compliance-timeline" },
     ],
   },
 ];
