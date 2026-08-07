@@ -41,7 +41,7 @@ origins = [
     "http://127.0.0.1:3000",
     "http://localhost:3001",
     "http://127.0.0.1:3001",
-    "https://your-railway-app.up.railway.app",  # Add your Railway URL here
+    "https://regos-sebi.vercel.app",
 ]
 
 app.add_middleware(
