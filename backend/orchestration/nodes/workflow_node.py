@@ -1,4 +1,4 @@
-from backend.orchestration.state import DocumentState, WorkflowTask
+from orchestration.state import DocumentState, WorkflowTask
 
 
 def workflow_node(state: DocumentState) -> dict:

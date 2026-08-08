@@ -1,13 +1,13 @@
-from backend.orchestration.state import DocumentState, Clause
+from orchestration.state import DocumentState, Clause
 
 def extraction_node(state: DocumentState) -> dict:
     raw_text = ""
     clean_text = ""
 
     try:
-        from backend.app.services.ocr_service import extract_raw_text
-        from backend.app.services.chunking_service import clean_text as clean_text_fn
-        from backend.app.services.chunking_service import legal_chunk_text
+        from app.services.ocr_service import extract_raw_text
+        from app.services.chunking_service import clean_text as clean_text_fn
+        from app.services.chunking_service import legal_chunk_text
 
         raw_text = extract_raw_text(state.pdf_path)
         clean_text = clean_text_fn(raw_text)

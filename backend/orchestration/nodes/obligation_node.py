@@ -1,10 +1,10 @@
-from backend.orchestration.state import DocumentState, Obligation
+from orchestration.state import DocumentState, Obligation
 
 def obligation_node(state: DocumentState) -> dict:
     all_obligations = []
 
     try:
-        from backend.agents.obligation_agent import extract_obligations_from_section
+        from agents.obligation_agent import extract_obligations_from_section
 
         for clause in state.clauses:
             metadata = {

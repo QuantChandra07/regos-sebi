@@ -251,6 +251,41 @@ export default function RegulationFeedPage() {
                 className="mx-auto mb-3 text-zinc-500"
                 size={28}
               />
+          {isLoading ? <LoadingBlock label="Loading circulars..." /> : null}
+          {error ? <ErrorBlock message={error.message} /> : null}
+          {!isLoading && !error && !filteredCirculars.length ? (
+            <EmptyBlock label="No circulars found." />
+          ) : null}
+
+          <div className="space-y-2">
+            {filteredCirculars.map((doc) => (
+              <button
+                key={doc.id}
+                onClick={() => setSelectedCircularId(doc.id)}
+                className="w-full rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-left transition-colors hover:border-cyan-500/30"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium text-gray-200">{doc.title}</p>
+                    <p className="mt-1 font-mono text-[11px] text-zinc-500">
+                      {doc.reference_id || "No reference"} •{" "}
+                      {formatDate(doc.effective_from || doc.uploaded_at)}
+                    </p>
+
+                    <div className="mt-2 flex flex-wrap gap-1.5">
+                      {[doc.regulator, doc.entity_type || "Generic", doc.category || "Circular"]
+                        .filter(Boolean)
+                        .slice(0, 3)
+                        .map((t) => (
+                          <span
+                            key={t}
+                            className="rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-[10px] text-zinc-400"
+                          >
+                            {t}
+                          </span>
+                        ))}
+                    </div>
+                  </div>
 
               <p className="text-sm text-zinc-300">
                 Upload PDF, Word, HTML, or email text
@@ -260,6 +295,21 @@ export default function RegulationFeedPage() {
                 <Button type="button">
                   Browse Files
                 </Button>
+      {selectedDoc ? (
+        <div
+          className="fixed inset-0 z-40 flex justify-end bg-black/60 backdrop-blur-sm"
+          onClick={() => setSelectedCircularId(undefined)}
+        >
+          <div
+            className="h-full w-full max-w-5xl overflow-y-auto border-l border-white/10 bg-[#09111b]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-white/10 bg-[#09111b]/95 p-5 backdrop-blur-xl">
+              <div className="min-w-0">
+                <h2 className="truncate text-base font-semibold text-white">{selectedDoc.title}</h2>
+                <p className="mt-1 font-mono text-[11px] text-zinc-500">
+                  {selectedDoc.reference_id || "No reference ID"}
+                </p>
               </div>
             </div>
 
@@ -323,6 +373,14 @@ export default function RegulationFeedPage() {
                 <h2 className="section-title mt-2">
                   Circular timeline
                 </h2>
+                <div className="mt-4 space-y-3 text-sm text-zinc-300">
+                  <p><span className="text-zinc-500">Title:</span> {selectedDoc.title}</p>
+                  <p><span className="text-zinc-500">Reference:</span> {selectedDoc.reference_id || "—"}</p>
+                  <p><span className="text-zinc-500">Regulator:</span> {selectedDoc.regulator || "—"}</p>
+                  <p><span className="text-zinc-500">Entity Type:</span> {selectedDoc.entity_type || "—"}</p>
+                  <p><span className="text-zinc-500">Effective:</span> {formatDate(selectedDoc.effective_from)}</p>
+                  <p><span className="text-zinc-500">Category:</span> {selectedDoc.category || "—"}</p>
+                </div>
               </div>
 
               <div className="flex flex-wrap gap-2">

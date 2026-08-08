@@ -1,10 +1,10 @@
-from backend.orchestration.state import DocumentState
+from orchestration.state import DocumentState
 
 def applicability_node(state: DocumentState) -> dict:
     updated = []
 
     try:
-        from backend.agents.applicability_agent import get_applicability
+        from agents.applicability_agent import get_applicability
 
         for ob in state.obligations:
             result = get_applicability(ob.obligation, {"document_title": state.circular.title if state.circular else ""})

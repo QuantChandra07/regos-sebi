@@ -5,62 +5,32 @@ pydantic==2.7.4
 pydantic-settings==2.3.0
 
 python-dotenv==1.0.1
+python-multipart==0.0.9
 
-# PDF text extraction
-PyMuPDF==1.24.4          # import as "fitz"
-pdf2image==1.17.0
-pytesseract==0.3.10
-Pillow==10.3.0
-
-# Utilities
 loguru==0.7.2
 
-# Optional: CORS for frontend-next.js
 starlette==0.37.2
 
-# backend/requirements.txt
-fastapi==0.111.0
-uvicorn==0.30.1
 sqlalchemy==2.0.31
 psycopg2-binary==2.9.9
-python-dotenv==1.0.1
-pydantic==2.7.4
-pydantic-settings==2.3.0
 
-# Your existing dependencies
+PyMuPDF==1.24.4
+pdfplumber==0.11.0
+pdf2image==1.17.0
+pytesseract==0.3.10
+Pillow>=11.0.0
+
+numpy==1.26.4
+
 chromadb==0.5.0
 transformers==4.41.0
-torch==2.3.0
+torch>=2.8.0
 sentence-transformers==3.0.0
+
 groq==0.9.0
-python-multipart==0.0.9
-# requirements.txt
-fastapi==0.111.0
-uvicorn==0.30.1
-sqlalchemy==2.0.31
-psycopg2-binary==2.9.9
-python-dotenv==1.0.1
-pydantic==2.7.4
-pydantic-settings==2.3.0
-
-
-
-# Add these if not already present
-pymupdf==1.24.4  # For PDF parsing (optional)
-pdfplumber==0.11.0  # Alternative PDF parser (optional)
 
 langgraph>=0.2.0
 langchain-core>=0.3.0
+
 redis>=5.0.0
 rq>=1.16.0
-
-fastapi==0.111.0
-uvicorn[standard]==0.30.1
-python-multipart==0.0.9
-pydantic==2.7.4
-langgraph>=0.2.0
-langchain-core>=0.3.0
-sqlalchemy>=2.0.0
-psycopg2-binary>=2.9.0
-python-dotenv>=1.0.0
-loguru>=0.7.0

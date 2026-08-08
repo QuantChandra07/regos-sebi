@@ -14,23 +14,40 @@ export type ComplianceStatus =
   | "COMPLIANT"
   | "BREACH";
 
-export type WorkflowColumn = "NOT_STARTED" | "IN_DESIGN" | "ACTIVE" | "COMPLIANT";
-
-export type EvidenceStatus = "NONE" | "MISSING" | "UPLOADED" | "VERIFIED";
-
-export type EvidenceReviewStatus = "PENDING_REVIEW" | "VERIFIED" | "REJECTED" | "EXPIRED";
-
-export type AgentRunStatus = "IDLE" | "RUNNING" | "ERROR";
-
-export type AgentHealth = "GOOD" | "WARNING" | "CRITICAL";
-
 export type Frequency =
   | "DAILY"
   | "WEEKLY"
   | "MONTHLY"
   | "QUARTERLY"
+  | "SEMI_ANNUAL"
   | "ANNUAL"
   | "EVENT_DRIVEN";
+
+export type WorkflowColumn =
+  | "PENDING"
+  | "ASSIGNED"
+  | "EVIDENCE_REQUESTED"
+  | "UNDER_REVIEW"
+  | "APPROVED"
+  | "COMPLETED";
+
+export type EvidenceStatus = "NONE" | "MISSING" | "UPLOADED" | "VERIFIED";
+
+export type EvidenceReviewStatus = "PENDING_REVIEW" | "VERIFIED" | "EXPIRED";
+
+export type AgentRunStatus = "IDLE" | "RUNNING" | "ERROR";
+
+export type AgentHealth = "GOOD" | "WARNING" | "CRITICAL";
+
+export type InspectionChecklistStatus = "OK" | "GAP";
+
+export type UserRole =
+  | "ADMIN"
+  | "COMPLIANCE_OFFICER"
+  | "DEPARTMENT_HEAD"
+  | "STAFF"
+  | "AUDITOR"
+  | "REGULATOR";
 
 export interface RegulatoryDocument {
   id: string;
@@ -84,14 +101,8 @@ export interface WorkflowTask {
   dueDate: string;
   department: string;
   priority: RiskLevel;
-  status:
-    | "PENDING"
-    | "ASSIGNED"
-    | "EVIDENCE_REQUESTED"
-    | "UNDER_REVIEW"
-    | "APPROVED"
-    | "COMPLETED";
-  evidenceStatus: "NONE" | "MISSING" | "UPLOADED" | "VERIFIED";
+  status: WorkflowColumn;
+  evidenceStatus: EvidenceStatus;
   comments?: string[];
 }
 
@@ -102,7 +113,7 @@ export interface EvidenceItem {
   timestamp: string;
   uploader: string;
   verifier: string;
-  status: "PENDING_REVIEW" | "VERIFIED" | "EXPIRED";
+  status: EvidenceReviewStatus;
   linkedObligationId: string;
   fileSize: string;
 }
@@ -110,21 +121,27 @@ export interface EvidenceItem {
 export interface AgentStatus {
   id: string;
   name: string;
-  status: "IDLE" | "RUNNING" | "ERROR";
+  status: AgentRunStatus;
   currentTask: string;
-  health: "GOOD" | "WARNING" | "CRITICAL";
+  health: AgentHealth;
   queueLength: number;
   lastExecution: string;
   latencyMs: number;
 }
 
-export type UserRole =
-  | "ADMIN"
-  | "COMPLIANCE_OFFICER"
-  | "DEPARTMENT_HEAD"
-  | "STAFF"
-  | "AUDITOR"
-  | "REGULATOR";
+export interface InspectionChecklistItem {
+  control: string;
+  status: InspectionChecklistStatus;
+}
+
+export interface SyntheticInspectionResult {
+  id: string;
+  scope: string;
+  readinessScore: number;
+  checklist: InspectionChecklistItem[];
+  questions: string[];
+  gaps: string[];
+}
 
 export interface AppUser {
   id: string;
@@ -138,7 +155,7 @@ export interface AppUser {
 export interface Department {
   id: string;
   name: string;
-  headUserId: string;
+  headUserId: string | null;
   complianceScore: number;
 }
 
@@ -151,16 +168,9 @@ export interface RiskScore {
   owner: string;
 }
 
-export interface SyntheticInspectionChecklistItem {
-  control: string;
-  status: "OK" | "GAP";
-}
-
-export interface SyntheticInspectionResult {
-  id: string;
-  scope: string;
-  readinessScore: number;
-  checklist: SyntheticInspectionChecklistItem[];
-  questions: string[];
-  gaps: string[];
+export interface CopilotResponse {
+  answer: string;
+  sourceCirculars: string[];
+  linkedObligations: string[];
+  suggestedActions: string[];
 }

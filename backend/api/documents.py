@@ -1,5 +1,5 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException
-from backend.orchestration.entrypoint import process_document
+from orchestration.entrypoint import process_document
 
 router = APIRouter(prefix="/documents", tags=["documents"])
 

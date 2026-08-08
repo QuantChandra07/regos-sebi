@@ -9,9 +9,9 @@ import pytesseract
 from loguru import logger
 from pathlib import Path
 
-from backend.app.core.settings import settings
-from backend.app.models.document_models import PageText, DocumentText
-from backend.app.utils.pdf_utils import (
+from app.core.settings import settings
+from app.models.document_models import PageText, DocumentText
+from app.utils.pdf_utils import (
     resolve_pdf_path,
     validate_pdf_exists,
     build_raw_text_output_path,

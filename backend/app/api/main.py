@@ -3,9 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from loguru import logger
 
-from backend.app.core.settings import settings
-from backend.app.services.ingestion_service import IngestionService
-from backend.app.schemas.response_models import DocumentIngestionResponse
+from app.core.settings import settings
+from app.services.ingestion_service import IngestionService
+from app.schemas.response_models import DocumentIngestionResponse
 
 
 app = FastAPI(
