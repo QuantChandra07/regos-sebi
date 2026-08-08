@@ -1,13 +1,14 @@
-import React from "react";
+import type { ReactNode } from "react";
 import clsx from "clsx";
+
 import type {
-  RiskLevel,
-  ComplianceStatus,
-  WorkflowColumn,
-  EvidenceStatus,
-  EvidenceReviewStatus,
-  AgentRunStatus,
   AgentHealth,
+  AgentRunStatus,
+  ComplianceStatus,
+  EvidenceReviewStatus,
+  EvidenceStatus,
+  RiskLevel,
+  WorkflowColumn,
 } from "@/types";
 
 type BadgeType =
@@ -24,41 +25,51 @@ type BadgeProps = {
   variant?: BadgeType;
   label?: string;
   className?: string;
+  children?: ReactNode;
 };
 
+function normalizeValue(value: string) {
+  return value
+    .trim()
+    .replace(/[\s-]+/g, "_")
+    .toUpperCase();
+}
+
 function formatLabel(value: string) {
-  return value.replace(/_/g, " ");
+  return value
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (character) =>
+      character.toUpperCase(),
+    );
 }
 
 function getBadgeStyles(value: string) {
-  switch (value) {
+  const normalized = normalizeValue(value);
+
+  switch (normalized) {
     case "CRITICAL":
-    case "Critical":
     case "BREACH":
     case "EXPIRED":
     case "ERROR":
     case "GAP":
     case "MISSING":
     case "REJECTED":
-    case "Overdue":
-      return "bg-red-950/60 text-red-400 border-red-800/80";
+    case "OVERDUE":
+      return "border-red-800/80 bg-red-950/60 text-red-400";
 
     case "HIGH":
-    case "High":
     case "PENDING_REVIEW":
     case "EVIDENCE_REQUESTED":
     case "UNDER_REVIEW":
     case "WARNING":
-      return "bg-amber-950/60 text-amber-400 border-amber-800/80";
+      return "border-amber-800/80 bg-amber-950/60 text-amber-400";
 
     case "MEDIUM":
-    case "Medium":
     case "IN_DESIGN":
     case "UPLOADED":
-      return "bg-yellow-950/60 text-yellow-400 border-yellow-800/80";
+      return "border-yellow-800/80 bg-yellow-950/60 text-yellow-400";
 
     case "LOW":
-    case "Low":
     case "ACTIVE":
     case "COMPLIANT":
     case "VERIFIED":
@@ -66,41 +77,46 @@ function getBadgeStyles(value: string) {
     case "COMPLETED":
     case "RUNNING":
     case "GOOD":
-      return "bg-emerald-950/60 text-emerald-400 border-emerald-800/80";
+      return "border-emerald-800/80 bg-emerald-950/60 text-emerald-400";
 
     case "ASSIGNED":
-    case "In Progress":
-      return "bg-cyan-950/60 text-cyan-400 border-cyan-800/80";
+    case "IN_PROGRESS":
+      return "border-cyan-800/80 bg-cyan-950/60 text-cyan-400";
 
     case "PENDING":
-    case "Pending":
     case "NONE":
     case "IDLE":
     case "NOT_STARTED":
-      return "bg-gray-800 text-gray-300 border-gray-700";
+    case "NOTSTARTED":
+      return "border-gray-700 bg-gray-800 text-gray-300";
 
     default:
-      return "bg-gray-800 text-gray-300 border-gray-700";
+      return "border-gray-700 bg-gray-800 text-gray-300";
   }
 }
 
-export const Badge: React.FC<BadgeProps> = ({
+export function Badge({
   variant,
   label,
   className,
-}) => {
-  const value = String(label ?? variant ?? "NONE");
-  const styles = getBadgeStyles(value);
+  children,
+}: BadgeProps) {
+  const value = String(
+    children ?? label ?? variant ?? "NONE",
+  );
 
   return (
     <span
       className={clsx(
-        "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium font-mono",
-        styles,
-        className
+        "inline-flex items-center rounded-full border px-2.5 py-1",
+        "font-mono text-[10px] font-semibold uppercase tracking-wide",
+        getBadgeStyles(value),
+        className,
       )}
     >
       {formatLabel(value)}
     </span>
   );
-};
+}
+
+export default Badge;

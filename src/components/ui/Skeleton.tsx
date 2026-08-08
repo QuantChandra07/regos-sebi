@@ -1,11 +1,21 @@
-import React from "react";
+import clsx from "clsx";
 
 type SkeletonProps = {
   className?: string;
 };
 
-export function Skeleton({ className = "" }: SkeletonProps) {
+export function Skeleton({
+  className,
+}: SkeletonProps) {
   return (
-    <div className={`animate-pulse rounded-md bg-gray-800/70 ${className}`} />
+    <div
+      aria-hidden="true"
+      className={clsx(
+        "animate-pulse rounded-md bg-gray-800/70",
+        className,
+      )}
+    />
   );
 }
+
+export default Skeleton;
