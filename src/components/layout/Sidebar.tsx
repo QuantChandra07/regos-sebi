@@ -13,12 +13,8 @@ import {
   GitBranch,
   LayoutDashboard,
   Network,
-  ChevronLeft,
-  ChevronRight,
-  ListChecks,
-  Layers3,
-  Sparkles,
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 type AppMode = "demo" | "live";
 
@@ -26,7 +22,14 @@ interface SidebarProps {
   mode?: AppMode;
 }
 
-const items = [
+interface NavItem {
+  href: string;
+  label: string;
+  icon: LucideIcon;
+  isNew?: boolean;
+}
+
+const items: NavItem[] = [
   {
     href: "/dashboard",
     label: "Dashboard",
@@ -77,16 +80,6 @@ const items = [
     href: "/ai-copilot",
     label: "AI Copilot",
     icon: Bot,
-  },
-    title: "Intelligence",
-    icon: Sparkles,
-    items: [
-      { name: "Clause Intelligence", icon: BrainCircuit, route: "/clause-intelligence" },
-      { name: "Obligations", icon: ListChecks, route: "/obligations" },
-      { name: "Compliance Graph", icon: GitFork, route: "/compliance-graph" },
-      { name: "Risk Intelligence", icon: TrendingUp, route: "/risk" },
-      { name: "AI Copilot", icon: Bot, route: "/ai-copilot" },
-    ],
   },
 ];
 
