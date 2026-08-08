@@ -77,17 +77,7 @@ const items = [
     href: "/ai-copilot",
     label: "AI Copilot",
     icon: Bot,
-  },
-    title: "Intelligence",
-    icon: Sparkles,
-    items: [
-      { name: "Clause Intelligence", icon: BrainCircuit, route: "/clause-intelligence" },
-      { name: "Obligations", icon: ListChecks, route: "/obligations" },
-      { name: "Compliance Graph", icon: GitFork, route: "/compliance-graph" },
-      { name: "Risk Intelligence", icon: TrendingUp, route: "/risk" },
-      { name: "AI Copilot", icon: Bot, route: "/ai-copilot" },
-    ],
-  },
+  }
 ];
 
 export default function Sidebar({
