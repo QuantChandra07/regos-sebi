@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search, X } from "lucide-react";
+
 import { useUIStore } from "@/lib/store";
 import {
   mockCirculars,
@@ -18,27 +19,44 @@ interface Result {
   route: string;
 }
 
-export const CommandPalette: React.FC = () => {
-  const { commandPaletteOpen, setCommandPaletteOpen } = useUIStore();
+export function CommandPalette() {
+  const {
+    commandPaletteOpen,
+    setCommandPaletteOpen,
+  } = useUIStore();
+
   const [query, setQuery] = useState("");
   const router = useRouter();
 
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      const tag = (document.activeElement?.tagName || "").toUpperCase();
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const activeTag = (
+        document.activeElement?.tagName || ""
+      ).toUpperCase();
 
-      if (e.key === "/" && tag !== "INPUT" && tag !== "TEXTAREA") {
-        e.preventDefault();
+      if (
+        event.key === "/" &&
+        activeTag !== "INPUT" &&
+        activeTag !== "TEXTAREA" &&
+        activeTag !== "SELECT"
+      ) {
+        event.preventDefault();
         setCommandPaletteOpen(true);
       }
 
-      if (e.key === "Escape") {
+      if (event.key === "Escape") {
         setCommandPaletteOpen(false);
       }
     };
 
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener(
+        "keydown",
+        handleKeyDown,
+      );
+    };
   }, [setCommandPaletteOpen]);
 
   useEffect(() => {
@@ -47,67 +65,84 @@ export const CommandPalette: React.FC = () => {
     }
   }, [commandPaletteOpen]);
 
-  const results: Result[] = useMemo(() => {
-    const lower = query.trim().toLowerCase();
+  const results = useMemo<Result[]>(() => {
+    const searchTerm = query.trim().toLowerCase();
 
-    const circularResults = mockCirculars
+    const circularResults: Result[] = mockCirculars
       .filter(
-        (c) =>
-          !lower ||
-          c.title.toLowerCase().includes(lower) ||
-          c.circularNumber.toLowerCase().includes(lower)
+        (circular) =>
+          !searchTerm ||
+          circular.title
+            .toLowerCase()
+            .includes(searchTerm) ||
+          circular.circularNumber
+            .toLowerCase()
+            .includes(searchTerm),
       )
-      .map((c) => ({
+      .map((circular) => ({
         type: "Circular",
-        label: c.title,
-        sub: c.circularNumber,
+        label: circular.title,
+        sub: circular.circularNumber,
         route: "/regulation-feed",
       }));
 
-    const clauseResults = mockClauses
+    const clauseResults: Result[] = mockClauses
       .filter(
-        (c) =>
-          !lower ||
-          c.clauseNumber.toLowerCase().includes(lower) ||
-          c.content.toLowerCase().includes(lower)
+        (clause) =>
+          !searchTerm ||
+          clause.clauseNumber
+            .toLowerCase()
+            .includes(searchTerm) ||
+          clause.content
+            .toLowerCase()
+            .includes(searchTerm),
       )
-      .map((c) => ({
+      .map((clause) => ({
         type: "Clause",
-        label: c.clauseNumber,
+        label: clause.clauseNumber,
         sub:
-          c.content.length > 90
-            ? `${c.content.slice(0, 90)}...`
-            : c.content,
+          clause.content.length > 90
+            ? `${clause.content.slice(0, 90)}...`
+            : clause.content,
         route: "/clause-intelligence",
       }));
 
-    const obligationResults = mockObligations
-      .filter(
-        (o) =>
-          !lower ||
-          o.title.toLowerCase().includes(lower) ||
-          o.department.toLowerCase().includes(lower) ||
-          o.owner.toLowerCase().includes(lower)
-      )
-      .map((o) => ({
-        type: "Obligation",
-        label: o.title,
-        sub: `${o.department} • ${o.owner}`,
-        route: "/obligation-cards",
-      }));
+    const obligationResults: Result[] =
+      mockObligations
+        .filter(
+          (obligation) =>
+            !searchTerm ||
+            obligation.title
+              .toLowerCase()
+              .includes(searchTerm) ||
+            obligation.department
+              .toLowerCase()
+              .includes(searchTerm) ||
+            obligation.owner
+              .toLowerCase()
+              .includes(searchTerm),
+        )
+        .map((obligation) => ({
+          type: "Obligation",
+          label: obligation.title,
+          sub: `${obligation.department} • ${obligation.owner}`,
+          route: "/obligation-cards",
+        }));
 
-    const userResults = mockUsers
+    const userResults: Result[] = mockUsers
       .filter(
-        (u) =>
-          !lower ||
-          u.name.toLowerCase().includes(lower) ||
-          u.role.toLowerCase().includes(lower) ||
-          u.department.toLowerCase().includes(lower)
+        (user) =>
+          !searchTerm ||
+          user.name.toLowerCase().includes(searchTerm) ||
+          user.role.toLowerCase().includes(searchTerm) ||
+          user.department
+            .toLowerCase()
+            .includes(searchTerm),
       )
-      .map((u) => ({
+      .map((user) => ({
         type: "User",
-        label: u.name,
-        sub: `${u.role} • ${u.department}`,
+        label: user.name,
+        sub: `${user.role} • ${user.department}`,
         route: "/",
       }));
 
@@ -119,28 +154,50 @@ export const CommandPalette: React.FC = () => {
     ].slice(0, 8);
   }, [query]);
 
-  if (!commandPaletteOpen) return null;
+  if (!commandPaletteOpen) {
+    return null;
+  }
+
+  const closePalette = () => {
+    setCommandPaletteOpen(false);
+  };
+
+  const navigateToResult = (route: string) => {
+    router.push(route);
+    closePalette();
+  };
 
   return (
     <div
       className="fixed inset-0 z-50 flex items-start justify-center bg-black/60 pt-24 backdrop-blur-sm"
-      onClick={() => setCommandPaletteOpen(false)}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Command palette"
+      onClick={closePalette}
     >
       <div
         className="w-full max-w-2xl overflow-hidden rounded-xl border border-gray-800 bg-card shadow-glow"
-        onClick={(e) => e.stopPropagation()}
+        onClick={(event) => event.stopPropagation()}
       >
         <div className="flex items-center border-b border-gray-800 px-4">
-          <Search size={16} className="text-gray-500" />
+          <Search
+            size={16}
+            className="text-gray-500"
+          />
+
           <input
             autoFocus
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(event) =>
+              setQuery(event.target.value)
+            }
             placeholder="Search circulars, clauses, obligations, users..."
-            className="flex-1 bg-transparent px-3 py-3 text-sm text-gray-200 placeholder-gray-500 focus:outline-none font-mono"
+            className="flex-1 bg-transparent px-3 py-3 font-mono text-sm text-gray-200 placeholder-gray-500 focus:outline-none"
           />
+
           <button
-            onClick={() => setCommandPaletteOpen(false)}
+            type="button"
+            onClick={closePalette}
             className="rounded p-1 text-gray-500 transition-colors hover:text-gray-300"
             aria-label="Close command palette"
           >
@@ -150,27 +207,33 @@ export const CommandPalette: React.FC = () => {
 
         <div className="max-h-80 overflow-y-auto">
           {results.length === 0 ? (
-            <p className='p-4 font-mono text-xs text-gray-500'>
-              No results. Try "cyber", "operations", "VAPT", or a circular number.
+            <p className="p-4 font-mono text-xs text-gray-500">
+              No results. Try &quot;cyber&quot;,
+              &quot;operations&quot;, &quot;VAPT&quot;, or a
+              circular number.
             </p>
           ) : (
-            results.map((r, idx) => (
+            results.map((result, index) => (
               <button
-                key={`${r.type}-${idx}`}
-                onClick={() => {
-                  router.push(r.route);
-                  setCommandPaletteOpen(false);
-                }}
+                key={`${result.type}-${index}`}
+                type="button"
+                onClick={() =>
+                  navigateToResult(result.route)
+                }
                 className="flex w-full items-center justify-between px-4 py-3 text-left transition-colors hover:bg-gray-800/60"
               >
                 <div className="min-w-0">
-                  <p className="truncate text-sm text-gray-200">{r.label}</p>
+                  <p className="truncate text-sm text-gray-200">
+                    {result.label}
+                  </p>
+
                   <p className="truncate font-mono text-[11px] text-gray-500">
-                    {r.sub}
+                    {result.sub}
                   </p>
                 </div>
+
                 <span className="ml-3 rounded border border-cyan-500/30 px-1.5 py-0.5 font-mono text-[10px] text-cyan-400">
-                  {r.type}
+                  {result.type}
                 </span>
               </button>
             ))
@@ -179,4 +242,4 @@ export const CommandPalette: React.FC = () => {
       </div>
     </div>
   );
-};
+}

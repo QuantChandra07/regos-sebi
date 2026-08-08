@@ -1,44 +1,63 @@
-"use client";
-
 import useSWR from "swr";
+
 import { fetcher } from "./api";
 import type {
-  CircularListResponse,
   CircularDetailResponse,
-  ObligationListResponse,
-  TaskListResponse,
-  EvidenceListResponse,
-  RiskListResponse,
+  CircularListResponse,
   DashboardSummaryResponse,
+  EvidenceListResponse,
+  ObligationListResponse,
+  RiskListResponse,
+  TaskListResponse,
 } from "../types/api";
 
 export function useDashboardSummary() {
-  return useSWR<DashboardSummaryResponse>("/dashboard/summary", fetcher);
+  return useSWR<DashboardSummaryResponse>(
+    "/dashboard/summary",
+    fetcher,
+  );
 }
 
 export function useCirculars(queryString = "") {
-  return useSWR<CircularListResponse>(`/circulars${queryString}`, fetcher);
+  return useSWR<CircularListResponse>(
+    `/circulars${queryString}`,
+    fetcher,
+  );
 }
 
-export function useCircularDetail(circularId?: string) {
+export function useCircularDetail(
+  circularId?: string,
+) {
   return useSWR<CircularDetailResponse>(
     circularId ? `/circulars/${circularId}` : null,
-    fetcher
+    fetcher,
   );
 }
 
 export function useObligations(queryString = "") {
-  return useSWR<ObligationListResponse>(`/obligations${queryString}`, fetcher);
+  return useSWR<ObligationListResponse>(
+    `/obligations${queryString}`,
+    fetcher,
+  );
 }
 
 export function useTasks(queryString = "") {
-  return useSWR<TaskListResponse>(`/tasks${queryString}`, fetcher);
+  return useSWR<TaskListResponse>(
+    `/tasks${queryString}`,
+    fetcher,
+  );
 }
 
 export function useEvidence(queryString = "") {
-  return useSWR<EvidenceListResponse>(`/evidence${queryString}`, fetcher);
+  return useSWR<EvidenceListResponse>(
+    `/evidence${queryString}`,
+    fetcher,
+  );
 }
 
 export function useRisks(queryString = "") {
-  return useSWR<RiskListResponse>(`/risks${queryString}`, fetcher);
+  return useSWR<RiskListResponse>(
+    `/risks${queryString}`,
+    fetcher,
+  );
 }
