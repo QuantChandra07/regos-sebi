@@ -2,371 +2,343 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { LucideIcon } from "lucide-react";
 import {
-  Activity,
-  BarChart3,
-  Bell,
+  AlertTriangle,
+  Archive,
   Bot,
-  Building2,
-  ChevronDown,
-  ClipboardCheck,
+  CalendarDays,
+  CheckCircle2,
   FileSearch,
   FileText,
   GitBranch,
-  History,
   LayoutDashboard,
   Network,
-  Scale,
-  Search,
-  Settings,
-  Shield,
-  Sparkles,
-  Upload,
-  Users,
-  Workflow,
-  X,
 } from "lucide-react";
-import { useState } from "react";
 
-type SidebarItem = {
-  name: string;
-  route: string;
-  icon: LucideIcon;
-  badge?: string;
-};
+type AppMode = "demo" | "live";
 
-type SidebarSection = {
-  title: string;
-  icon: LucideIcon;
-  items: SidebarItem[];
-};
+interface SidebarProps {
+  mode?: AppMode;
+}
 
-const sections: SidebarSection[] = [
+const items = [
   {
-    title: "Workspace",
+    href: "/dashboard",
+    label: "Dashboard",
     icon: LayoutDashboard,
-    items: [
-      {
-        name: "Dashboard",
-        route: "/dashboard",
-        icon: LayoutDashboard,
-      },
-      {
-        name: "Regulation Feed",
-        route: "/regulation-feed",
-        icon: Bell,
-      },
-      {
-        name: "Document Library",
-        route: "/document-library",
-        icon: FileText,
-      },
-      {
-        name: "Live Upload",
-        route: "/live-upload",
-        icon: Upload,
-      },
-    ],
   },
   {
-    title: "Intelligence",
-    icon: Sparkles,
-    items: [
-      {
-        name: "Clause Intelligence",
-        route: "/clause-intelligence",
-        icon: FileSearch,
-      },
-      {
-        name: "Obligations",
-        route: "/obligations",
-        icon: ClipboardCheck,
-        badge: "148",
-      },
-      {
-        name: "Risk Intelligence",
-        route: "/risk",
-        icon: Shield,
-        badge: "07",
-      },
-      {
-        name: "Compliance Graph",
-        route: "/compliance-graph",
-        icon: Network,
-      },
-    ],
+    href: "/regulation-feed",
+    label: "Regulation Feed",
+    icon: FileSearch,
   },
   {
-    title: "Execution",
-    icon: Workflow,
-    items: [
-      {
-        name: "Workflow Engine",
-        route: "/workflow-engine",
-        icon: Workflow,
-        badge: "23",
-      },
-      {
-        name: "Evidence Vault",
-        route: "/evidence-vault",
-        icon: FileText,
-        badge: "12",
-      },
-      {
-        name: "Compliance Timeline",
-        route: "/compliance-timeline",
-        icon: History,
-      },
-    ],
+    href: "/clause-intelligence",
+    label: "Clause Intelligence",
+    icon: FileText,
   },
   {
-    title: "Assistant",
+    href: "/obligations",
+    label: "Obligations",
+    icon: CheckCircle2,
+    isNew: true,
+  },
+  {
+    href: "/workflow-engine",
+    label: "Workflow Engine",
+    icon: GitBranch,
+  },
+  {
+    href: "/evidence-vault",
+    label: "Evidence Vault",
+    icon: Archive,
+  },
+  {
+    href: "/risk",
+    label: "Risk Intelligence",
+    icon: AlertTriangle,
+  },
+  {
+    href: "/compliance-graph",
+    label: "Compliance Graph",
+    icon: Network,
+  },
+  {
+    href: "/compliance-timeline",
+    label: "Compliance Timeline",
+    icon: CalendarDays,
+  },
+  {
+    href: "/ai-copilot",
+    label: "AI Copilot",
     icon: Bot,
-    items: [
-      {
-        name: "AI Copilot",
-        route: "/ai-copilot",
-        icon: Bot,
-      },
-      {
-        name: "Synthetic Inspection",
-        route: "/synthetic-inspection",
-        icon: Search,
-      },
-    ],
-  },
-  {
-    title: "Administration",
-    icon: Settings,
-    items: [
-      {
-        name: "Executive",
-        route: "/executive",
-        icon: BarChart3,
-      },
-      {
-        name: "Administration",
-        route: "/admin",
-        icon: Users,
-      },
-      {
-        name: "Settings",
-        route: "/settings",
-        icon: Settings,
-      },
-    ],
   },
 ];
 
-type SidebarProps = {
-  mobileOpen?: boolean;
-  onClose?: () => void;
-};
-
 export default function Sidebar({
-  mobileOpen = false,
-  onClose,
+  mode = "demo",
 }: SidebarProps) {
   const pathname = usePathname();
-  const [collapsedSections, setCollapsedSections] =
-    useState<Record<string, boolean>>({});
-
-  const toggleSection = (title: string) => {
-    setCollapsedSections((current) => ({
-      ...current,
-      [title]: !current[title],
-    }));
-  };
-
-  const isActive = (route: string) => {
-    if (route === "/dashboard") {
-      return pathname === "/dashboard";
-    }
-
-    return pathname === route || pathname.startsWith(`${route}/`);
-  };
+  const isLive = mode === "live";
 
   return (
-    <>
-      {mobileOpen ? (
-        <button
-          type="button"
-          aria-label="Close navigation"
-          onClick={onClose}
-          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden"
-        />
-      ) : null}
-
-      <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-[260px] flex-col border-r border-white/10 bg-[#060a12]/95 text-white shadow-2xl shadow-black/30 backdrop-blur-2xl transition-transform duration-300 lg:translate-x-0 ${
-          mobileOpen
-            ? "translate-x-0"
-            : "-translate-x-full"
-        }`}
-      >
-        <div className="flex h-16 shrink-0 items-center justify-between border-b border-white/10 px-5">
-          <Link
-            href="/dashboard"
-            onClick={onClose}
-            className="flex items-center gap-3"
+    <nav className="sidebar">
+      <div className="sidebar-logo">
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+          }}
+        >
+          <div
+            style={{
+              width: 32,
+              height: 32,
+              borderRadius: 8,
+              background: isLive
+                ? "linear-gradient(135deg, #10b981, #0ea5e9)"
+                : "linear-gradient(135deg, #0ea5e9, #06b6d4)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              boxShadow: isLive
+                ? "0 4px 12px rgba(16,185,129,0.3)"
+                : "0 4px 12px rgba(56,189,248,0.3)",
+              flexShrink: 0,
+            }}
           >
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400 to-blue-600 shadow-lg shadow-cyan-500/20">
-              <Scale
-                size={18}
-                className="text-slate-950"
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M2 8L6 4L10 8L14 4"
+                stroke="#020617"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
+              <path
+                d="M2 12L6 8L10 12L14 8"
+                stroke="#020617"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                opacity=".5"
+              />
+            </svg>
+          </div>
+
+          <div>
+            <div
+              style={{
+                fontSize: 14,
+                fontWeight: 700,
+                color: "#f1f5f9",
+                letterSpacing: "0.02em",
+              }}
+            >
+              REGOS-SEBI
             </div>
 
-            <div>
-              <p className="text-sm font-bold tracking-tight text-white">
-                REGOS-SEBI
-              </p>
-
-              <p className="mt-0.5 text-[9px] font-semibold uppercase tracking-[0.16em] text-zinc-500">
-                Compliance OS
-              </p>
-            </div>
-          </Link>
-
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Close sidebar"
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-zinc-500 transition-colors hover:bg-white/10 hover:text-white lg:hidden"
-          >
-            <X size={16} />
-          </button>
-        </div>
-
-        <div className="border-b border-white/10 px-4 py-4">
-          <div className="rounded-2xl border border-cyan-500/15 bg-cyan-500/[0.05] p-3">
-            <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-cyan-500/20 bg-cyan-500/10">
-                <Building2
-                  size={16}
-                  className="text-cyan-300"
+            <div
+              style={{
+                fontSize: 10,
+                color: isLive
+                  ? "#10b981"
+                  : "var(--c-text-muted)",
+                fontWeight: 600,
+                marginTop: 1,
+                display: "flex",
+                alignItems: "center",
+                gap: 4,
+              }}
+            >
+              {isLive && (
+                <span
+                  style={{
+                    width: 5,
+                    height: 5,
+                    borderRadius: "50%",
+                    background: "#10b981",
+                    display: "inline-block",
+                    boxShadow: "0 0 6px #10b981",
+                  }}
                 />
-              </div>
+              )}
 
-              <div className="min-w-0">
-                <p className="truncate text-xs font-semibold text-white">
-                  Demo Workspace
-                </p>
-
-                <p className="mt-1 flex items-center gap-1.5 text-[10px] text-emerald-400">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                  Workspace active
-                </p>
-              </div>
+              {isLive
+                ? "Live Backend"
+                : "AI Compliance Engine"}
             </div>
           </div>
         </div>
+      </div>
 
-        <nav className="flex-1 overflow-y-auto px-3 py-4">
-          <div className="space-y-5">
-            {sections.map((section) => {
-              const SectionIcon = section.icon;
-              const isCollapsed =
-                collapsedSections[section.title];
+      <div
+        style={{
+          padding: "8px 12px",
+          margin: "0 8px 4px",
+          borderRadius: 8,
+          background: isLive
+            ? "rgba(16,185,129,0.08)"
+            : "rgba(56,189,248,0.06)",
+          border: `1px solid ${
+            isLive
+              ? "rgba(16,185,129,0.2)"
+              : "rgba(56,189,248,0.12)"
+          }`,
+        }}
+      >
+        <div
+          style={{
+            fontSize: 10,
+            fontWeight: 700,
+            color: isLive ? "#10b981" : "#38bdf8",
+            textTransform: "uppercase",
+            letterSpacing: "0.06em",
+            display: "flex",
+            alignItems: "center",
+            gap: 5,
+          }}
+        >
+          <span
+            style={{
+              width: 6,
+              height: 6,
+              borderRadius: "50%",
+              background: isLive ? "#10b981" : "#38bdf8",
+              display: "inline-block",
+              boxShadow: `0 0 5px ${
+                isLive ? "#10b981" : "#38bdf8"
+              }`,
+            }}
+          />
 
-              return (
-                <div key={section.title}>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      toggleSection(section.title)
-                    }
-                    className="mb-2 flex w-full items-center justify-between px-2 text-left"
-                  >
-                    <span className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.16em] text-zinc-600">
-                      <SectionIcon size={12} />
-                      {section.title}
-                    </span>
+          {isLive
+            ? "Live Backend · Real SEBI Data"
+            : "Demo Dataset · AI Processed"}
+        </div>
+      </div>
 
-                    <ChevronDown
-                      size={13}
-                      className={`text-zinc-700 transition-transform ${
-                        isCollapsed ? "-rotate-90" : ""
-                      }`}
-                    />
-                  </button>
+      <div className="sidebar-section-label">
+        Workspace
+      </div>
 
-                  {!isCollapsed ? (
-                    <div className="space-y-1">
-                      {section.items.map((item) => {
-                        const ItemIcon = item.icon;
-                        const active = isActive(item.route);
+      <div
+        style={{
+          flex: 1,
+          overflowY: "auto",
+          paddingBottom: 16,
+        }}
+      >
+        {items.map((item) => {
+          const Icon = item.icon;
 
-                        return (
-                          <Link
-                            key={item.route}
-                            href={item.route}
-                            onClick={onClose}
-                            className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all ${
-                              active
-                                ? "border border-cyan-500/20 bg-cyan-500/10 text-cyan-300 shadow-[0_0_18px_rgba(56,189,248,0.08)]"
-                                : "border border-transparent text-zinc-500 hover:border-white/10 hover:bg-white/[0.04] hover:text-zinc-200"
-                            }`}
-                          >
-                            <ItemIcon
-                              size={15}
-                              className={`shrink-0 ${
-                                active
-                                  ? "text-cyan-300"
-                                  : "text-zinc-600 group-hover:text-zinc-300"
-                              }`}
-                            />
+          const isActive =
+            pathname === item.href ||
+            pathname.startsWith(`${item.href}/`);
 
-                            <span className="min-w-0 flex-1 truncate">
-                              {item.name}
-                            </span>
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`sidebar-item${
+                isActive ? " active" : ""
+              }`}
+            >
+              <Icon size={15} strokeWidth={1.7} />
 
-                            {item.badge ? (
-                              <span
-                                className={`rounded-full px-1.5 py-0.5 font-mono text-[9px] ${
-                                  active
-                                    ? "bg-cyan-400/15 text-cyan-300"
-                                    : "bg-white/[0.05] text-zinc-600"
-                                }`}
-                              >
-                                {item.badge}
-                              </span>
-                            ) : null}
-                          </Link>
-                        );
-                      })}
-                    </div>
-                  ) : null}
-                </div>
-              );
-            })}
+              <span>{item.label}</span>
+
+              {item.isNew && (
+                <span
+                  style={{
+                    marginLeft: "auto",
+                    fontSize: 9,
+                    fontWeight: 700,
+                    background: "rgba(56,189,248,0.1)",
+                    color: "var(--c-primary)",
+                    border:
+                      "1px solid rgba(56,189,248,0.18)",
+                    padding: "1px 6px",
+                    borderRadius: 4,
+                    letterSpacing: "0.04em",
+                  }}
+                >
+                  NEW
+                </span>
+              )}
+            </Link>
+          );
+        })}
+      </div>
+
+      <div
+        style={{
+          padding: "12px 16px",
+          borderTop: "1px solid var(--c-border)",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+          }}
+        >
+          <div
+            style={{
+              width: 32,
+              height: 32,
+              borderRadius: "50%",
+              background:
+                "linear-gradient(135deg, #0ea5e9 0%, #8b5cf6 100%)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: 12,
+              fontWeight: 700,
+              color: "#fff",
+              flexShrink: 0,
+            }}
+          >
+            RS
           </div>
-        </nav>
 
-        <div className="shrink-0 border-t border-white/10 p-4">
-          <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-sky-500 to-violet-500 text-[10px] font-bold text-white">
-              RS
+          <div style={{ minWidth: 0 }}>
+            <div
+              style={{
+                fontSize: 13,
+                fontWeight: 600,
+                color: "var(--c-text)",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
+              SEBI TechSprint
             </div>
 
-            <div className="min-w-0 flex-1">
-              <p className="truncate text-xs font-semibold text-zinc-200">
-                Compliance User
-              </p>
-
-              <p className="mt-0.5 truncate text-[10px] text-zinc-600">
-                Compliance Officer
-              </p>
+            <div
+              style={{
+                fontSize: 11,
+                color: isLive
+                  ? "#10b981"
+                  : "var(--c-text-muted)",
+              }}
+            >
+              {isLive
+                ? "Live Workspace"
+                : "Demo Workspace"}
             </div>
-
-            <Activity
-              size={14}
-              className="text-emerald-400"
-            />
           </div>
         </div>
-      </aside>
-    </>
+      </div>
+    </nav>
   );
 }
